@@ -1,12 +1,12 @@
 @echo off
 rem /**
-rem  * Copyright (c) 2013-Now http://jeesite.com All rights reserved.
+rem  * Copyright (c)
 rem  * No deletion without permission, or be held responsible to law.
 rem  *
-rem  * Author: ThinkGem@163.com
+rem  * Author: joey_huang@yeah.net
 rem  */
 echo.
-echo [信息] 使用 Spring Boot Tomcat 运行 Web 工程。
+echo [锟斤拷息] 使锟斤拷 Spring Boot Tomcat 锟斤拷锟斤拷 Web 锟斤拷锟教★拷
 echo.
 
 %~d0

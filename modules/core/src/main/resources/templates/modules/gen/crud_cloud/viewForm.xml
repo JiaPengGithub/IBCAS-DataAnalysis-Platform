@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright (c) 2013-Now http://jeesite.com All rights reserved. -->
+<!-- Copyright (c)  -->
 <template>
 	<name>viewForm</name>
 	<filePath>${moduleName}/src/main/resources/views/${lastPackageName}/${moduleName}/${subModuleName}</filePath>

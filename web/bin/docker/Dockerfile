@@ -1,5 +1,5 @@
 FROM openjdk:8-slim
-LABEL maintainer="ThinkGem@163.com"
+LABEL maintainer="joey_huang@yeah.net"
 ENV TZ "Asia/Shanghai"
 ENV LANG C.UTF-8
 VOLUME /tmp

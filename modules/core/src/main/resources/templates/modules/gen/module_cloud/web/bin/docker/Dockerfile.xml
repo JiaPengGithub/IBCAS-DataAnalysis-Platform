@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright (c) 2013-Now http://jeesite.com All rights reserved.
+<!-- Copyright (c)
      No deletion without permission, or be held responsible to law. -->
 <template>
 	<name>Dockerfile</name>
 	<filePath>${module.moduleCode}/${module.moduleCode}/bin/docker</filePath>
 	<fileName>Dockerfile</fileName>
 	<content><![CDATA[FROM openjdk:8-slim
-LABEL maintainer="ThinkGem@163.com"
+LABEL maintainer="joey_huang@yeah.net"
 ENV TZ "Asia/Shanghai"
 ENV LANG C.UTF-8
 VOLUME /tmp

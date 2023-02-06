@@ -1,12 +1,12 @@
 @echo off
 rem /**
-rem  * Copyright (c) 2013-Now http://jeesite.com All rights reserved.
+rem  * Copyright (c)
 rem  * No deletion without permission, or be held responsible to law.
 rem  *
-rem  * Author: ThinkGem@163.com
+rem  * Author: joey_huang@yeah.net
 rem  */
 echo.
-echo [ÐÅÏ¢] ´ò°üWeb¹¤³Ì£¬Éú³Éwar/jar°üÎÄ¼þ¡£
+echo [ï¿½ï¿½Ï¢] ï¿½ï¿½ï¿½Webï¿½ï¿½ï¿½Ì£ï¿½ï¿½ï¿½ï¿½ï¿½war/jarï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½
 echo.
 
 %~d0

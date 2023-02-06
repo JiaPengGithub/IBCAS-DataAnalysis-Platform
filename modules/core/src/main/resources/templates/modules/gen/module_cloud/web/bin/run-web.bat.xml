@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright (c) 2013-Now http://jeesite.com All rights reserved.
+<!-- Copyright (c)
      No deletion without permission, or be held responsible to law. -->
 <template>
 	<name>run-web</name>
@@ -8,10 +8,10 @@
 	<charset>GBK</charset>
 	<content><![CDATA[@echo off
 rem /**
-rem  * Copyright (c) 2013-Now http://jeesite.com All rights reserved.
+rem  * Copyright (c)
 rem  * No deletion without permission, or be held responsible to law.
 rem  *
-rem  * Author: ThinkGem@163.com
+rem  * Author: joey_huang@yeah.net
 rem  */
 echo.
 echo [信息] 打包Web工程，并运行Web工程。

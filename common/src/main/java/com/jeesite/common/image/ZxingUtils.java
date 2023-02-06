@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2013-Now http://jeesite.com All rights reserved.
+ * Copyright (c)
  * No deletion without permission, or be held responsible to law.
  */
 package com.jeesite.common.image;
@@ -142,7 +142,7 @@ public class ZxingUtils {
 //
 //		// 二维码
 //		String imgPath2 = "target\\zxing.png";
-//		String contents2 = "Hello Gem, welcome to Zxing!" + "\nBlog [ http://thinkgem.iteye.com ]" + "\nEMail [ thinkgem@163.com ]";
+//		String contents2 = "Hello Gem, welcome to Zxing!" + "\nBlog [ http://thinkgem.iteye.com ]" + "\nEMail [ joey_huang@yeah.net ]";
 //		int width2 = 300, height2 = 300;
 //
 //		ZxingUtils.encode2(contents2, width2, height2, imgPath2);

@@ -1,12 +1,12 @@
 @echo off
 rem /**
-rem  * Copyright (c) 2013-Now http://jeesite.com All rights reserved.
+rem  * Copyright (c)
 rem  * No deletion without permission, or be held responsible to law.
 rem  *
-rem  * Author: ThinkGem@163.com
+rem  * Author: joey_huang@yeah.net
 rem  */
 echo.
-echo [пео╒] ткппWeb╧╓Ёл║ё
+echo [О©╫О©╫о╒] О©╫О©╫О©╫О©╫WebО©╫О©╫О©╫л║О©╫
 echo.
 rem pause
 rem echo.
@@ -16,19 +16,19 @@ cd %~dp0
 
 title %cd%
 
-rem иХжцJDKд©б╪
+rem О©╫О©╫О©╫О©╫JDKд©б╪
 rem set "JAVA_HOME=%cd%\jdk1.8.0_x64"
 
-rem иХжцюЮ╪стьб╥╬╤
+rem О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫б╥О©╫О©╫
 set "CLASS_PATH=%cd%/../"
 
-rem се╩╞JVM╡нйЩ
+rem О©╫е╩О©╫JVMО©╫О©╫О©╫О©╫
 set "JAVA_OPTS=%JAVA_OPTS% -Xms512m -Xmx1024m"
 
-rem ╥╫й╫р╩║╒еДжцмБ╡©вт╤╗рЕ╣дйТптнд╪Чё╗╫╗рИё╘
+rem О©╫О©╫й╫р╩О©╫О©╫О©╫О©╫О©╫О©╫О©╫Б╡©О©╫т╤О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫д╪О©╫О©╫О©╫О©╫О©╫О©╫Иё╘
 rem set "JAVA_OPTS=%JAVA_OPTS% -Dspring.config.location=%cd%\app.yml"
 
-rem ╥╫й╫╤Ч║╒еДжц╩╥╬ЁцШЁфё╛╪сть╡╩м╛╣дйТптнд╪Ч
+rem О©╫О©╫й╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ц╩О©╫О©╫О©╫О©╫О©╫О©╫фёО©╫О©╫О©╫О©╫ь╡О©╫м╛О©╫О©╫О©╫О©╫О©╫О©╫О©╫д╪О©╫
 rem set "JAVA_OPTS=%JAVA_OPTS% -Dspring.profiles.active=prod"
 
 if "%JAVA_HOME%" == "" goto noJavaHome

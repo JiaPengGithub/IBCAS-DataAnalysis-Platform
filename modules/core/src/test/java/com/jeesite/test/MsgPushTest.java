@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2013-Now http://jeesite.com All rights reserved.
+ * Copyright (c)
  * No deletion without permission, or be held responsible to law.
  */
 package com.jeesite.test;
@@ -135,7 +135,7 @@ public class MsgPushTest extends BaseSpringContextTests {
 		msgContent.addTplData("keyword1", "小王");
 		msgContent.addTplData("keyword2", "2018-8-28 20:00");
 		msgContent.addTplData("keyword3", "OA项目方案讨论视频会议");
-		msgContent.setCc("thinkgem@163.com"); // 抄送地址，模板附加参数
+		msgContent.setCc("joey_huang@yeah.net"); // 抄送地址，模板附加参数
 		// 即时推送模板消息，模板内容：你好，${keyword1}，请于 ${keyword2}，准时参加${keyword3}
 		MsgPushUtils.push(msgContent, "BizKey", "BizType", "system");
 	}

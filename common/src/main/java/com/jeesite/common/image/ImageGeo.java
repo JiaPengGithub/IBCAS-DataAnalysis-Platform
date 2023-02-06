@@ -1,5 +1,5 @@
 ///**
-// * Copyright (c) 2013-Now http://jeesite.com All rights reserved.
+// * Copyright (c)
 // */
 //package com.jeesite.common.image;
 //

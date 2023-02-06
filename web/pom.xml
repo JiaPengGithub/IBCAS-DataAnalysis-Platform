@@ -14,7 +14,7 @@
 	<packaging>war</packaging>
 	
 	<name>JeeSite Web</name>
-	<url>http://jeesite.com</url>
+	<url>http://www.ibcas.ac.cn/</url>
 	<inceptionYear>2013-Now</inceptionYear>
 	
 	<properties>
@@ -126,7 +126,7 @@
 		<developer>
 			<id>thinkgem</id>
 			<name>WangZhen</name>
-			<email>thinkgem at 163.com</email>
+			<email>joey_huang@yeah.net</email>
 			<roles><role>Project lead</role></roles>
 			<timezone>+8</timezone>  
 		</developer>
@@ -134,7 +134,7 @@
 	
 	<organization>
 		<name>JeeSite</name>
-		<url>http://jeesite.com</url>
+		<url>http://www.ibcas.ac.cn/</url>
 	</organization>
 	
 	<repositories>

@@ -1,25 +1,25 @@
 @echo off
 rem /**
-rem  * Copyright (c) 2013-Now http://jeesite.com All rights reserved.
+rem  * Copyright (c)
 rem  * No deletion without permission, or be held responsible to law.
 rem  *
-rem  * Author: ThinkGem@163.com
+rem  * Author: joey_huang@yeah.net
 rem  */
 echo.
-echo [ÐÅÏ¢] ´ò°üWeb¹¤³Ì£¬²¢ÔËÐÐWeb¹¤³Ì¡£
+echo [ï¿½ï¿½Ï¢] ï¿½ï¿½ï¿½Webï¿½ï¿½ï¿½Ì£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Webï¿½ï¿½ï¿½Ì¡ï¿½
 echo.
 
 %~d0
 cd %~dp0
 
-rem ´ò°üWeb¹¤³Ì£¨¿ªÊ¼£©
+rem ï¿½ï¿½ï¿½Webï¿½ï¿½ï¿½Ì£ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½
 cd ..
 call mvn clean package spring-boot:repackage -Dmaven.test.skip=true -U
 cd target
-rem ´ò°üWeb¹¤³Ì£¨½áÊø£©
+rem ï¿½ï¿½ï¿½Webï¿½ï¿½ï¿½Ì£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
 
-rem ¸ù¾ÝÇé¿öÐÞ¸Ä web.jar ÎªÄúµÄ jar °üÃû³Æ
+rem ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Þ¸ï¿½ web.jar Îªï¿½ï¿½ï¿½ï¿½ jar ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 mkdir app
 copy web.war app
 cd app

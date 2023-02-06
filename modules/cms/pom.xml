@@ -13,7 +13,7 @@
 	<artifactId>jeesite-module-cms</artifactId>
 
 	<name>JeeSite Module CMS</name>
-	<url>http://jeesite.com</url>
+	<url>http://www.ibcas.ac.cn/</url>
 	<inceptionYear>2013-Now</inceptionYear>
 
 	<dependencies>
@@ -30,7 +30,7 @@
 		<developer>
 			<id>thinkgem</id>
 			<name>WangZhen</name>
-			<email>thinkgem at 163.com</email>
+			<email>joey_huang@yeah.net</email>
 			<roles>
 				<role>Project lead</role>
 			</roles>
@@ -40,7 +40,7 @@
 
 	<organization>
 		<name>JeeSite</name>
-		<url>http://jeesite.com</url>
+		<url>http://www.ibcas.ac.cn/</url>
 	</organization>
 	<repositories>
 		<repository>
