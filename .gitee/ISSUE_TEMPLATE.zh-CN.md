@@ -20,4 +20,3 @@
 
 - JDK版本：1.8、11、17
 - 浏览器版本：Chrome xx、Firefox xx、IE xx
-- 平台版本：JeeSite 4.x.x、5.x.x（pom.xml里查看）
