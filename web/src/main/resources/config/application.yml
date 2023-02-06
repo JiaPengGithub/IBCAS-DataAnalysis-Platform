@@ -4,12 +4,12 @@
 #======================================#
 
 # 产品或项目名称、软件开发公司名称
-productName: JeeSite Demo
-companyName: ThinkGem
+productName: analysis
+companyName: analysis
 
 # 产品版本、版权年份
-productVersion: V4.6
-copyrightYear: 2022
+productVersion: V0.1
+copyrightYear: 2023
 
 # 是否演示模式
 demoMode: false
@@ -440,7 +440,7 @@ user:
 
 # 国际化管理（专业版）
 lang:
-  enabled: false
+  enabled: true
   
 #  # 默认语言（4.1.3+）
 #  defaultLocale: zh_CN
@@ -477,21 +477,21 @@ job:
 #    clusterCheckinInterval: 1000
 #    className: org.springframework.scheduling.quartz.LocalDataSourceJobStore
 
-#  # 调度日志
-#  log:
-#    # 计划调度日志
-#    scheduler:
-#      enabled: true
-#      # 是否只保存错误日志
-#      errorLevel: true
-#    # 任务执行日志
-#    jobDetail:
-#      enabled: true
-#      # 是否只保存错误日志
-#      errorLevel: true
-#    # 计划触发日志
-#    trigger:
-#      enabled: false
+  # 调度日志
+  log:
+    # 计划调度日志
+    scheduler:
+      enabled: true
+      # 是否只保存错误日志
+      errorLevel: false
+    # 任务执行日志
+    jobDetail:
+      enabled: true
+      # 是否只保存错误日志
+      errorLevel: false
+    # 计划触发日志
+    trigger:
+      enabled: true
 
 # 代码生成
 gen:

@@ -251,7 +251,7 @@ menu:
 
 # 国际化管理（专业版）
 lang:
-  enabled: false
+  enabled: true
   
   # 默认语言（4.1.3+）
   defaultLocale: zh_CN
