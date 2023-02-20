@@ -4,11 +4,11 @@
 #======================================#
 
 # 产品或项目名称、软件开发公司名称
-productName: DataAnalysis
-companyName: DataAnalysis
+productName: IB CAS DataAnalysis
+companyName: IB CAS DataAnalysis
 
 # 产品版本、版权年份
-productVersion: V0.1
+productVersion: V1.0
 copyrightYear: 2023
 
 # 是否演示模式

@@ -354,13 +354,22 @@ public class LoginController extends BaseController{
 		return "modules/sys/switchSkin";
 	}
 	
+//	/**
+//	 * 个人桌面页面
+//	 */
+//	@RequiresPermissions("user")
+//	@RequestMapping(value = "desktop")
+//	public String desktop(HttpServletRequest request, HttpServletResponse response, Model model) {
+//		return "modules/sys/sysDesktop";
+//	}
+
 	/**
 	 * 个人桌面页面
 	 */
 	@RequiresPermissions("user")
 	@RequestMapping(value = "desktop")
 	public String desktop(HttpServletRequest request, HttpServletResponse response, Model model) {
-		return "modules/sys/sysDesktop";
+		return "modules/sys/sysDesktopScreen";
 	}
 	
 }
