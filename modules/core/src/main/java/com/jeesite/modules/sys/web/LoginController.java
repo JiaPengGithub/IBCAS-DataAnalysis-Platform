@@ -371,5 +371,5 @@ public class LoginController extends BaseController{
 	public String desktop(HttpServletRequest request, HttpServletResponse response, Model model) {
 		return "modules/sys/sysDesktopScreen";
 	}
-	
+
 }
