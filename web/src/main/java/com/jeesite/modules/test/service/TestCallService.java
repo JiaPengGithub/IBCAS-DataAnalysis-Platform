@@ -8,7 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import static com.jeesite.modules.test.service.RunPythonUtil.runPythonCommand;
+import static com.jeesite.common.utils.RunPythonUtil.runPythonCommand;
 
 /**
  * 测试数据Service
@@ -47,6 +47,8 @@ public class TestCallService {
 	}
 
 	public void task04(String command) throws Exception {
+
+		System.out.println("task04.");
 
 		runPythonCommand("VI_129.py");
 

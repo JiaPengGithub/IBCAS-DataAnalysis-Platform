@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jeesite.modules.sys.dao.TaskDao">
+    
+    <!-- 查询数据  -->
+	<select id="findAll" resultType="com.jeesite.modules.sys.entity.Task">
+		select * from js_task where del = 0
+	</select>
+
+	<insert id="save" parameterType="com.jeesite.modules.sys.entity.Task">
+		INSERT INTO js_task
+			(task_num,task_name,script_name,task_desc,update_time,code,del)
+		VALUES
+		    (#{task.taskNum},#{task.taskName},#{task.scriptName},#{task.taskDesc},#{task.updateTime},#{task.code},0);
+
+	</insert>
+
+	<update id="delete" parameterType="java.lang.String">
+		UPDATE js_task
+		SET del = 1
+		WHERE task_num = #{taskNum}
+	</update>
+
+	<insert id="saveTaskRunLog" parameterType="com.jeesite.modules.sys.entity.TaskRunLog">
+		INSERT INTO js_task_run_log
+			(id,run_task_man,batch_no,start_time,run_remark,update_time)
+		VALUES
+			(#{log.id},#{log.runTaskMan},#{log.batchNo},#{log.startTime},#{log.runRemark},#{log.updateTime});
+	</insert>
+
+	<insert id="saveTaskItemList" parameterType="com.jeesite.modules.sys.entity.TaskRunItem">
+		INSERT INTO js_task_run_item
+			(id,run_id,task_num,task_status,start_time,end_time,input_path,output_path,update_time)
+		VALUES
+		<foreach collection="itemList" item="item" index="index" separator="," >
+			(#{item.id},#{item.runId},#{item.taskNum},#{item.taskStatus},#{item.startTime},#{item.endTime},#{item.inputPath},#{item.outputPath},#{item.updateTime})
+		</foreach>
+	</insert>
+
+	<select id="findLog100" resultType="com.jeesite.modules.sys.entity.TaskRunLog">
+		SELECT *
+		FROM js_task_run_log
+		ORDER BY update_time DESC
+		LIMIT 100
+	</select>
+	
+	<select id="findLogOne" parameterType="java.lang.String" resultType="com.jeesite.modules.sys.entity.TaskRunLog">
+		SELECT *
+		FROM js_task_run_log
+		where id = #{logId}
+	</select>
+
+	<select id="findItemList" resultType="com.jeesite.modules.sys.entity.TaskRunItem">
+		select * from js_task_run_item where run_id = #{orgId}
+	</select>
+	
+	<select id="findTaskByIds" parameterType="java.lang.String" resultType="com.jeesite.modules.sys.entity.Task">
+		select * from js_task
+		 where task_num in
+		<foreach collection="taskNumList" item="taskNum" index="index" open="(" close=")" separator=",">
+			#{taskNum}
+		</foreach>
+	</select>
+
+</mapper>

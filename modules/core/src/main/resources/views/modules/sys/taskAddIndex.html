@@ -1,0 +1,86 @@
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+<script src="https://cdn.bootcss.com/jquery/2.2.4/jquery.js"></script>
+
+<style>
+    textarea {
+        width: 600px;
+        height: 300px;
+        resize: none;
+    }
+</style>
+
+<h2>
+    添加任务 (上传脚本)
+</h2>
+
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span12">
+            <div>
+                <br/>
+                <fieldset>
+                    <label>任务名称</label>
+                    <input type="text" id="taskNameInputId"/>
+                    <label>脚本名称</label>
+                    <input type="text" id="scriptNameInputId"/>
+                    <label>任务描述</label>
+                    <input type="text" id="taskDescInputId"/>
+                </fieldset>
+                <br/>
+                <div>
+                    <div>输入代码</div>
+                    <textarea type="text" id="codeInputId" placeholder="将代码粘贴至此处"></textarea>
+                </div>
+                <br/>
+                <button class="btn btn-large btn-block" class="btn" onclick="submit();" id="submitId">提交</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<br>
+<br>
+<br>
+
+<script type="text/javascript">
+
+    $(document).ready(function() {
+        console.log('ready');
+    });
+
+    function submit() {
+        const url = window.location.origin + '/a/sys/task/addTaskConfig';
+        const taskName = $('#taskNameInputId').val();
+        const scriptName = $('#scriptNameInputId').val();
+        const taskDesc = $('#taskDescInputId').val();
+        const code = $('#codeInputId').val();
+
+        // 参数检查
+        if(taskName == '' || taskName == undefined) {
+            alert('请输入任务名称');
+            return;
+        }
+        if(scriptName == '' || scriptName == undefined) {
+            alert('请输入脚本名称');
+            return;
+        }
+        if(code == '' || code == undefined) {
+            alert('请输入代码');
+            return;
+        }
+
+        const data = {
+            taskName: taskName,
+            scriptName: scriptName,
+            taskDesc: taskDesc,
+            code: code,
+        };
+        $.post(url, data, function(reDate, status) {
+            console.log("reDate: " + reDate + "nStatus: " + status);
+            // TODO 失败后，提示；成功后，清空输入？
+        });
+    }
+
+</script>

@@ -1,0 +1,290 @@
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+<script src="https://cdn.bootcss.com/jquery/2.2.4/jquery.js"></script>
+
+<h2>
+    任务列表
+</h2>
+
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span12">
+            <table class="table" id="taskList">
+                <thead>
+                <tr>
+                    <th>
+                        select
+                    </th>
+                    <th>
+                        任务编号
+                    </th>
+                    <th>
+                        任务名称
+                    </th>
+                    <th>
+                        脚本名称
+                    </th>
+                    <th>
+                        任务描述
+                    </th>
+                    <th>
+                        操作
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+        <div>
+            <button class="btn btn-large btn-block" type="button" onclick="generateTaskPlan();" id="genButtonId">生成任务执行计划</button>
+        </div>
+    </div>
+</div>
+
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<div id="runTaskListDiv" style="display:none;">
+    <h2>
+        执行计划
+    </h2>
+    <br/>
+    <div>
+        <fieldset>
+            <legend>选择执行文件的批次</legend>
+            <input type="text" id="batchInput"/>
+        </fieldset>
+
+        <fieldset>
+            <legend>执行人</legend>
+            <input type="text" id="runManInput" placeholder="非必填"/>
+        </fieldset>
+
+        <fieldset>
+            <legend>执行备注</legend>
+            <input type="text" id="remarkInput" placeholder="非必填"/>
+        </fieldset>
+    </div>
+    <br/>
+    <div class="container-fluid">
+        <div class="row-fluid">
+            <div class="span12">
+                <table class="table" id="runTaskList">
+                    <thead>
+                    <tr>
+<!--                        <th>-->
+<!--                            select-->
+<!--                        </th>-->
+                        <th>
+                            任务编号
+                        </th>
+                        <th>
+                            任务名称
+                        </th>
+                        <th>
+                            脚本名称
+                        </th>
+                        <th>
+                            任务描述
+                        </th>
+                        <th>
+                            输入文件名
+                        </th>
+                        <th>
+                            输出文件名
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody id="bodyList">
+                        <tr>
+<!--                            <td><input type="checkbox" name="no"/></td>-->
+                            <td>a</td>
+                            <td>b</td>
+                            <td>c</td>
+                            <td>d</td>
+                            <td><input type="text" id="inputPath"/></td>
+                            <td><input type="text" id="outputPath"/></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div>
+                <button class="btn btn-large btn-block" type="button" onclick="runTaskPlan();">开始执行</button>
+                <button class="btn btn-large btn-block" type="button" onclick="cancelTaskPlan();">取消执行</button>
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+<br>
+<br>
+
+<script type="text/javascript">
+
+    $(document).ready(function() {
+        // console.log(`window.location.pathname = ` + window.location.pathname);
+        // console.log(`window.location.href = ` + window.location.href);
+        // console.log(`window.location.origin = ` + window.location.origin);
+        initData();
+    });
+
+    let dataList = new Array();
+
+    /**
+     * 初始化数据
+     */
+    function initData() {
+        const url = window.location.origin + '/a/sys/task/listData';
+        $.get(url, function(_dataList) {
+            dataList = _dataList;
+            for(const index in dataList) {
+                const line = dataList[index];
+                let classStr = index%2==0?'class="success"':'class="info"';
+                let html = '<tr '+classStr+'>\n' +
+                    '<td><input type="checkbox" name="no" id="'+line.taskNum+'" value="'+line.taskNum+'"/></td>' +
+                    '<td>'+ line.taskNum + '</td>' +
+                    '<td>'+ line.taskName + '</td>' +
+                    '<td>'+ line.scriptName + '</td>' +
+                    '<td>'+ line.taskDesc + '</td>' +
+                    '<td><button class="btn btn-mini btn-danger" type="button" id="deleteId'+line.taskNum+'" onclick="deleteTaskConfig(\''+line.taskNum+'\')">删除</button></td>' +
+                    '</tr>';
+                $('#taskList tr:last').after(html);
+            }
+        })
+    }
+
+    /**
+     * 生成任务执行计划
+     */
+    function generateTaskPlan() {
+
+        // 获取选中的taskNum
+        const selectedOptions = [];
+        $('input[type=checkbox]:checked').each(function() {
+            selectedOptions.push($(this).val());
+        });
+        console.log(selectedOptions);
+
+        if(selectedOptions.length == 0) {
+            alert("请选择需要执行的任务!");
+            return;
+        }
+
+        // 生成按钮禁用
+        $("#genButtonId").attr("disabled",true);
+
+        // 显示执行计划
+        $('#runTaskListDiv').attr('style', 'display:block;')
+
+        // 清空tr
+        const bodyListDom = $("#bodyList");
+        bodyListDom.html('');
+        console.log(bodyListDom);
+        bodyListDom.html('<tbody id="bodyList"><tbody>');
+        // 并重新设置tr
+        let count=0;
+        for(const index in dataList) {
+            const line = dataList[index];
+            if(selectedOptions.includes(line.taskNum)) {
+                count++;
+                let classStr = count%2==0?'class="success"':'class="info"';
+                let html = '<tr '+classStr+'>\n' +
+                    // '<td><input type="checkbox" name="no" id="'+line.taskNum+'" value="'+line.taskNum+'"/></td>' +
+                    '<td>'+ line.taskNum + '</td>' +
+                    '<td>'+ line.taskName + '</td>' +
+                    '<td>'+ line.scriptName + '</td>' +
+                    '<td>'+ line.taskDesc + '</td>' +
+                    '<td><input type="text" id="inputPathId'+count+'" taskNum="'+line.taskNum+'"  scriptName="'+line.scriptName+'"/></td>' +
+                    '<td><input type="text" id="outputPathId'+count+'" /></td>' +
+                    '</tr>';
+                $('#runTaskList tr:last').after(html);
+            }
+        }
+
+    }
+
+    /**
+     * 开始执行
+     */
+    function runTaskPlan() {
+        /**
+         * TODO 开始执行
+         *  校验参数
+         *  调用接口
+         */
+        const batchInput = $('#batchInput').val();
+        if(batchInput == '' || batchInput == undefined) {
+            alert('请输入执行计划所需的必要内容.');
+            return;
+        }
+        const runManInput = $("#runManInput").val();
+        const remarkInput = $("#remarkInput").val();
+
+        const taskNumList = new Array();
+        for(let index=1; index<99999; index++) {
+            const inputPathOne = $("#inputPathId"+index);
+            const outputPathOne = $("#outputPathId"+index);
+            if(inputPathOne == undefined || inputPathOne.html() == undefined || outputPathOne == undefined || outputPathOne.html() == undefined) {
+                break;
+            }
+            if(inputPathOne.val() == '' || inputPathOne.val() == undefined || outputPathOne.val() == '' || outputPathOne.val() == undefined) {
+                alert('请输入执行计划所需的必要内容.');
+                return;
+            }
+            // console.log(inputPathOne.val() + "," + inputPathOne.attr("taskNum"));
+            taskNumList.push(
+                {
+                    taskNum: inputPathOne.attr("taskNum"),
+                    scriptName: inputPathOne.attr("scriptName"),
+                    inputPathStr: inputPathOne.val(),
+                    outputPathStr: outputPathOne.val()
+                }
+            );
+        }
+        const data = {
+            batchNo: batchInput,
+            runTaskMan: runManInput,
+            runRemark: remarkInput,
+            list: JSON.stringify(taskNumList)
+        };
+        const url = window.location.origin + '/a/sys/task/runTask';
+        $.post(url, data, function(reDate, status) {
+            console.log("reDate: " + reDate + "status: " + status);
+            // TODO 判断是否提交成功
+            // 提示
+            alert("已经开始执行。");
+            // 刷新页面
+            window.location.href = window.location.href;
+        });
+
+    }
+
+    /**
+     * 取消执行
+     */
+    function cancelTaskPlan() {
+        // 隐藏执行计划
+        $('#runTaskListDiv').attr('style', 'display:none;');
+        // 生成按钮激活
+        $("#genButtonId").attr("disabled",false);
+        // 刷新页面，防止重复添加到执行计划
+        window.location.href = window.location.href;
+    }
+
+    /**
+     * 删除
+     */
+    function deleteTaskConfig(taskNum) {
+        const url = window.location.origin + '/a/sys/task/deleteTaskConfig';
+        $.post(url, {taskNum: taskNum}, function(reDate, status) {
+            console.log("reDate: " + reDate + "status: " + status);
+            // 刷新页面
+            window.location.href = window.location.href;
+        });
+    }
+
+</script>
