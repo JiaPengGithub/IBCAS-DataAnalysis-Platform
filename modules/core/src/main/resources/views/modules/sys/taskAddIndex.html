@@ -2,6 +2,7 @@
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
 <script src="https://cdn.bootcss.com/jquery/2.2.4/jquery.js"></script>
+<script src="../../../static/js/base64.js"></script>
 
 <style>
     textarea {
@@ -12,15 +13,41 @@
 </style>
 
 <h2>
-    添加任务 (上传脚本)
+    配置任务 (脚本)
 </h2>
 
 <div class="container-fluid">
     <div class="row-fluid">
         <div class="span12">
+
+            <select  id="sid" onchange="selectFunction()">
+                <option>---默认: 新增任务---</option>
+            </select>
+
+<!--            <div class="btn-group">-->
+<!--                <button class="btn">Action</button>-->
+<!--                <button data-toggle="dropdown" class="btn dropdown-toggle">-->
+<!--                    <span class="caret"></span></button>-->
+<!--                <ul class="dropdown-menu">-->
+<!--                    <li>-->
+<!--                        <a href="#">操作</a>-->
+<!--                    </li>-->
+<!--                    <li>-->
+<!--                        <a href="#">设置栏目</a>-->
+<!--                    </li>-->
+<!--                    <li>-->
+<!--                        <a href="#">更多设置</a>-->
+<!--                    </li>-->
+<!--&lt;!&ndash;                    <li class="divider">&ndash;&gt;-->
+<!--&lt;!&ndash;                    </li>&ndash;&gt;-->
+<!--                </ul>-->
+<!--            </div>-->
+
+            <br/>
             <div>
                 <br/>
                 <fieldset>
+                    <input type="text" id="taskNumId" style="display:none;"/>
                     <label>任务名称</label>
                     <input type="text" id="taskNameInputId"/>
                     <label>脚本名称</label>
@@ -47,11 +74,31 @@
 <script type="text/javascript">
 
     $(document).ready(function() {
-        console.log('ready');
+        initData();
     });
+
+    let dataList = new Array();
+
+    function initData() {
+        let html = '<option value="______new______">---默认: 新增任务---</option>';
+
+        const url = window.location.origin + '/a/sys/task/listData';
+        $.get(url, function(_dataList) {
+            dataList = _dataList;
+            for(const index in dataList) {
+                const line = dataList[index];
+                const msg = '编辑: '+line.taskName + '  [ '+line.scriptName+' ] ';
+                console.log('msg = ' + msg);
+                html += '<option value="'+line.taskNum+'">'+msg+'</option>'
+            }
+            // console.log('html = ' + html);
+            $('#sid').html(html);
+        })
+    }
 
     function submit() {
         const url = window.location.origin + '/a/sys/task/addTaskConfig';
+        const taskNum = $('#taskNumId').val();
         const taskName = $('#taskNameInputId').val();
         const scriptName = $('#scriptNameInputId').val();
         const taskDesc = $('#taskDescInputId').val();
@@ -71,16 +118,58 @@
             return;
         }
 
+        const base = new BASE64();
+
+        // console.log('base.encode(code) = ' + base.encode(code))
+        // console.log('base.decode(result) = ' + base.decode(base.encode(code)))
+
         const data = {
+            taskNum: taskNum,
             taskName: taskName,
             scriptName: scriptName,
             taskDesc: taskDesc,
-            code: code,
+            code: base.encode(code),
         };
         $.post(url, data, function(reDate, status) {
             console.log("reDate: " + reDate + "nStatus: " + status);
-            // TODO 失败后，提示；成功后，清空输入？
+            // 刷新页面
+            window.location.href = window.location.href;
         });
+    }
+
+    function selectFunction() {
+        const taskNum = $('#sid').val();
+        console.log('select val = ' + taskNum)
+
+        // 新增
+        if('______new______' == taskNum) {
+            // 清屏
+            clearInput();
+        }
+        // 编辑
+        else {
+            for(const index in dataList) {
+                const line = dataList[index];
+                if(line.taskNum == taskNum) {
+                    // 回显
+                    $('#taskNumId').val(line.taskNum);
+                    $('#taskNameInputId').val(line.taskName);
+                    $('#scriptNameInputId').val(line.scriptName);
+                    $('#taskDescInputId').val(line.taskDesc);
+                    const base = new BASE64();
+                    $('#codeInputId').val(base.decode(line.code));
+                }
+            }
+        }
+
+    }
+
+    function clearInput() {
+        $('#taskNumId').val('');
+        $('#taskNameInputId').val('');
+        $('#scriptNameInputId').val('');
+        $('#taskDescInputId').val('');
+        $('#codeInputId').val('');
     }
 
 </script>

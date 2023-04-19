@@ -19,11 +19,15 @@ public interface TaskDao {
 
     public void save(@Param("task") Task task);
 
+    public void updateTask(@Param("task") Task task);
+
     public void delete(@Param("taskNum") String taskNum);
 
     public void saveTaskRunLog(@Param("log") TaskRunLog taskRunLog);
 
     public void saveTaskItemList(@Param("itemList") List<TaskRunItem> taskRunItemList);
+
+    public void updateTaskItem(@Param("taskRunItem") TaskRunItem taskRunItem);
 
     public List<TaskRunLog> findLog100();
 

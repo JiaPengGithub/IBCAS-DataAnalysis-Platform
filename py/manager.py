@@ -39,17 +39,18 @@ class CThread (threading.Thread):
 def getPythonName(command):
     # param: 2020StartTime_1673164949954_test.py
     print(command)
-    # TODO 解析命令的方式应该考虑 python文件名中带有-的情况
     splits = command.split('-')
     return splits[2]
 
 
 if __name__ == "__main__":
 
-    pythonPath = "/Users/jiapeng/Desktop/garden_file/zwbxzsj/"
+    # TODO 配置项
+    # pythonPath = "/Users/jiapeng/Desktop/garden_file/zwbxzsj/"
+    # commandPath = "/Users/jiapeng/MyCode/garden_code/jeesite-v4.6.0/command/"
 
-    # command path
-    commandPath = "/Users/jiapeng/MyCode/garden_code/jeesite-v4.6.0/command/"
+    pythonPath = "/Users/jiapeng/MyCode/garden_code/jeesite-v4.6.0/web/src/main/webapp/WEB-INF/classes/script_code/"
+    commandPath = "/Users/jiapeng/MyCode/garden_code/jeesite-v4.6.0/web/src/main/webapp/WEB-INF/classes/script_code/"
 
     stateSuffix = "/state"
     successFlagSuffix = "/_.success"
@@ -59,6 +60,10 @@ if __name__ == "__main__":
         # 遍历所有Java发出的命令
         for fileName in os.listdir(commandPath):
     #         print(file_name)
+            if fileName == '.DS_Store':
+                continue;
+            if os.path.isdir(commandPath + fileName) == False:
+                continue;
             statePath = commandPath + fileName + stateSuffix
             existFlag = os.path.exists(statePath)
             if existFlag == False:

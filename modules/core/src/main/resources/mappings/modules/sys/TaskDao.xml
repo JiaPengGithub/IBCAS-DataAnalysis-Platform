@@ -12,8 +12,18 @@
 			(task_num,task_name,script_name,task_desc,update_time,code,del)
 		VALUES
 		    (#{task.taskNum},#{task.taskName},#{task.scriptName},#{task.taskDesc},#{task.updateTime},#{task.code},0);
-
 	</insert>
+
+	<update id="updateTask" parameterType="com.jeesite.modules.sys.entity.Task">
+		UPDATE js_task
+		SET
+			task_name = #{task.taskName},
+			script_name = #{task.scriptName},
+			task_desc = #{task.taskDesc},
+			update_time = #{task.updateTime},
+			code = #{task.code}
+		WHERE task_num = #{task.taskNum}
+	</update>
 
 	<update id="delete" parameterType="java.lang.String">
 		UPDATE js_task
@@ -36,6 +46,15 @@
 			(#{item.id},#{item.runId},#{item.taskNum},#{item.taskStatus},#{item.startTime},#{item.endTime},#{item.inputPath},#{item.outputPath},#{item.updateTime})
 		</foreach>
 	</insert>
+
+	<update id="updateTaskItem" parameterType="com.jeesite.modules.sys.entity.TaskRunItem">
+		UPDATE js_task_run_item
+		SET
+		    task_status = #{taskRunItem.taskStatus},
+			start_time = #{taskRunItem.startTime},
+			end_time = #{taskRunItem.endTime}
+		WHERE id = #{taskRunItem.id}
+	</update>
 
 	<select id="findLog100" resultType="com.jeesite.modules.sys.entity.TaskRunLog">
 		SELECT *

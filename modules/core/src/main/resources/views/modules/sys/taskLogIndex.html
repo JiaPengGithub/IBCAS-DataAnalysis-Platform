@@ -7,42 +7,8 @@
     任务日志
 </h2>
 
-<div class="container-fluid">
-    <div class="row-fluid">
-        <div class="span12">
-            <table class="table" id="logList">
-                <thead>
-                <tr>
-                    <th>
-                        执行人
-                    </th>
-                    <th>
-                        执行批次号
-                    </th>
-                    <th>
-                        开始执行时间
-                    </th>
-                    <th>
-                        执行备注
-                    </th>
-                    <th>
-                        操作
-                    </th>
-                </tr>
-                </thead>
-                <tbody>
-                </tbody>
-            </table>
-        </div>
-    </div>
-</div>
+<br/>
 
-
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
 <div id="itemListDiv" style="display:none;">
     <h2>
         任务执行详细记录
@@ -98,6 +64,41 @@
         </div>
     </div>
 </div>
+
+<br/>
+<br/>
+<br/>
+
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span12">
+            <table class="table" id="logList">
+                <thead>
+                <tr>
+                    <th>
+                        执行人
+                    </th>
+                    <th>
+                        执行批次号
+                    </th>
+                    <th>
+                        开始执行时间
+                    </th>
+                    <th>
+                        执行备注
+                    </th>
+                    <th>
+                        操作
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
 <br>
 <br>
 <br>
@@ -172,7 +173,7 @@
                     '<td>'+ taskMap[line.taskNum].taskDesc +'</td>' +
                     '<td>'+ line.taskStatusStr + '</td>' +
                     '<td>'+ (line.startTime == undefined ? '暂无' : line.startTime) + '</td>' +
-                    '<td>'+ (line.endTime == undefined ? '暂无' : line.startTime) + '</td>' +
+                    '<td>'+ (line.endTime == undefined ? '暂无' : line.endTime) + '</td>' +
                     '<td>'+ line.inputPath + '</td>' +
                     '<td>'+ line.outputPath + '</td>' +
                     '</tr>';

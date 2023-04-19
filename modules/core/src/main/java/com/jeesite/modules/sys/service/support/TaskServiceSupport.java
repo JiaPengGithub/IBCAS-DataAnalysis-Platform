@@ -4,6 +4,9 @@
  */
 package com.jeesite.modules.sys.service.support;
 
+import cn.hutool.core.io.FileUtil;
+import cn.hutool.core.io.file.FileWriter;
+import com.jeesite.common.utils.RunPythonUtil;
 import com.jeesite.common.utils.UUIDUtil;
 import com.jeesite.modules.sys.dao.TaskDao;
 import com.jeesite.modules.sys.entity.RunTask;
@@ -13,10 +16,13 @@ import com.jeesite.modules.sys.entity.TaskRunLog;
 import com.jeesite.modules.sys.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import java.util.Base64;
 
+import java.io.File;
 import java.util.*;
 
 import static com.jeesite.common.utils.RunPythonUtil.runPythonCommand;
+import static com.jeesite.common.utils.RunPythonUtil.runPythonCommandByAbsolutePath;
 
 @Service
 public class TaskServiceSupport implements TaskService {
@@ -30,11 +36,16 @@ public class TaskServiceSupport implements TaskService {
     }
 
     public void save(Task task) {
-        if(task.getTaskNum() == null) {
+        if(task.getTaskNum() == null || "".equals(task.getTaskNum())) {
             task.setTaskNum(System.currentTimeMillis()+"");
         }
         task.setUpdateTime(new Date());
-        taskDao.save(task);
+        List<Task> taskList = taskDao.findTaskByIds(Arrays.asList(task.getTaskNum()));
+        if(taskList.size() == 0) {
+            taskDao.save(task);
+        } else {
+            taskDao.updateTask(task);
+        }
     }
 
     public void delete(String taskNum) {
@@ -42,15 +53,9 @@ public class TaskServiceSupport implements TaskService {
     }
 
     public void runTask(String batchNo, String runTaskMan, String runRemark, List<RunTask> runTaskList) {
-        /**
-         * TODO run task
-         * (异步任务, 开一个线程池?)
-         * vv 1. db插入一条数据
-         * 2. 开始执行
-         * 3. 每个脚本呢的执行进行记录 到db
-         */
-        System.out.println(batchNo);
-        System.out.println(runTaskList);
+
+//        System.out.println(batchNo);
+//        System.out.println(runTaskList);
 
         // 1. 执行日志, db js_task_run_log
         String runId = UUIDUtil.getUUID();
@@ -86,7 +91,7 @@ public class TaskServiceSupport implements TaskService {
      *  3. 更新db item 状态
      *  4. 删除代码文件
      */
-    private static void runTaskLogic(List<TaskRunItem> taskRunItemList) {
+    private void runTaskLogic(List<TaskRunItem> taskRunItemList) {
 
         new Thread(
                 new Runnable() {
@@ -94,8 +99,50 @@ public class TaskServiceSupport implements TaskService {
                     public void run() {
                         try {
                             for(TaskRunItem taskRunItem : taskRunItemList) {
-                                // TODO 生成代码文件, 并开始执行, 更新状态, 删除代码文件
+                                // TODO 超时退出机制
 //                                runPythonCommand("demo.py");
+
+                                // 1. 生成临时代码文件
+                                String taskNum = taskRunItem.getTaskNum();
+                                List<Task> taskList = taskDao.findTaskByIds(Arrays.asList(taskNum));
+                                if(taskList.size() == 0) {
+                                    throw new RuntimeException("您执行了已被删除的任务，请您刷新界面重新执行。");
+                                }
+                                Task task = taskList.get(0);
+                                String pyFileName = task.getTaskNum()+"s"+System.nanoTime()+".py";
+                                FileWriter writer = new FileWriter("./script_code/"+pyFileName);
+                                Base64.Decoder decoder = Base64.getDecoder();
+                                String code = new String(decoder.decode(task.getCode()));
+                                // 替换占位符
+                                code = code.replaceAll("_inputPath_", taskRunItem.getInputPath());
+                                code = code.replaceAll("_outputPath_", taskRunItem.getOutputPath());
+                                writer.write(code);
+                                String absolutePath = writer.getFile().getAbsolutePath();
+                                System.out.println("absolutePath = " + absolutePath);
+
+                                // 2. 提交任务 & 更新状态(runing)
+//                                runPythonCommand("demo.py");
+                                taskRunItem.setTaskStatus(TaskRunItem.StatusEnum.RUNING.getValue());
+                                taskRunItem.setStartTime(new Date());
+                                System.out.println(taskRunItem.getStartTime());
+                                taskDao.updateTaskItem(taskRunItem);
+                                RunPythonUtil.RunStatusEnum runStatusEnum = runPythonCommandByAbsolutePath(absolutePath, pyFileName);
+
+                                // 3. 更新状态 (结束 or 异常)
+                                if(runStatusEnum.getValue() == RunPythonUtil.RunStatusEnum.OK.getValue()) {
+                                    taskRunItem.setTaskStatus(TaskRunItem.StatusEnum.OVER.getValue());
+                                } else {
+                                    taskRunItem.setTaskStatus(TaskRunItem.StatusEnum.ERROR.getValue());
+                                }
+                                taskRunItem.setEndTime(new Date());
+                                System.out.println(taskRunItem.getEndTime());
+                                taskDao.updateTaskItem(taskRunItem);
+
+                                // 4. 删除临时代码文件
+                                File file = FileUtil.file(absolutePath);
+                                boolean delete = file.delete();
+                                System.out.println(delete);
+
                             }
                         } catch (Exception e) {
                             throw new RuntimeException(e);
