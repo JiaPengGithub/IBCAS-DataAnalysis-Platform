@@ -16,7 +16,7 @@
 </style>
 
 <h2>
-    配置Python任务
+    配置MATLAB任务
 </h2>
 
 <div class="container-fluid">
@@ -85,7 +85,7 @@
     function initData() {
         let html = '<option value="______new______">---默认: 新增任务---</option>';
 
-        const url = window.location.origin + '/a/sys/task/listDataPython';
+        const url = window.location.origin + '/a/sys/task/listDataMatlab';
         $.get(url, function(_dataList) {
             dataList = _dataList;
             for(const index in dataList) {
@@ -132,7 +132,7 @@
             scriptName: scriptName,
             taskDesc: taskDesc,
             code: base.encode(code),
-            type: 0
+            type: 1
         };
         $.post(url, data, function(reDate, status) {
             console.log("reDate: " + reDate + "nStatus: " + status);

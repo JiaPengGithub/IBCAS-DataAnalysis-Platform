@@ -7,15 +7,23 @@ package com.jeesite.modules.sys.service;
 import com.jeesite.modules.sys.entity.RunTask;
 import com.jeesite.modules.sys.entity.Task;
 import com.jeesite.modules.sys.entity.TaskRunLog;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 
 public interface TaskService {
 
-    public List<Task> findOne();
+    public List<Task> findAll();
+
+    public List<Task> findAllPython();
+
+    public List<Task> findAllMatlab();
 
     public void save(Task task);
+
+    public void addTaskFile(MultipartFile multipartFile, HttpServletRequest request);
 
     public void delete(String taskNum);
 

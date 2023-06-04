@@ -2,16 +2,26 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.jeesite.modules.sys.dao.TaskDao">
     
-    <!-- 查询数据  -->
+    <!-- 查询数据 all  -->
 	<select id="findAll" resultType="com.jeesite.modules.sys.entity.Task">
 		select * from js_task where del = 0
 	</select>
 
+	<!-- 查询数据 python  -->
+	<select id="findAllPython" resultType="com.jeesite.modules.sys.entity.Task">
+		select * from js_task where del = 0 and type = 0
+	</select>
+
+	<!-- 查询数据 matlab  -->
+	<select id="findAllMatlab" resultType="com.jeesite.modules.sys.entity.Task">
+		select * from js_task where del = 0 and type = 1
+	</select>
+
 	<insert id="save" parameterType="com.jeesite.modules.sys.entity.Task">
 		INSERT INTO js_task
-			(task_num,task_name,script_name,task_desc,update_time,code,del)
+			(task_num,task_name,script_name,task_desc,update_time,code,del,type)
 		VALUES
-		    (#{task.taskNum},#{task.taskName},#{task.scriptName},#{task.taskDesc},#{task.updateTime},#{task.code},0);
+		    (#{task.taskNum},#{task.taskName},#{task.scriptName},#{task.taskDesc},#{task.updateTime},#{task.code},0,${task.type});
 	</insert>
 
 	<update id="updateTask" parameterType="com.jeesite.modules.sys.entity.Task">

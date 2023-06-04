@@ -28,6 +28,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
@@ -62,14 +63,25 @@ public class TaskController extends BaseController {
 	}
 
 	/**
-	 * 配置任务 页面
+	 * 配置 python任务 页面
 	 * @param model
 	 * @return
 	 */
 	@RequiresPermissions("sys:office:view")
 	@RequestMapping(value = "addTaskIndex")
-	public String addTaskIndex(Model model) {
+	public String addPythonTaskIndex(Model model) {
 		return "modules/sys/taskAddIndex";
+	}
+
+	/**
+	 * 配置 matlab任务 页面
+	 * @param model
+	 * @return
+	 */
+	@RequiresPermissions("sys:office:view")
+	@RequestMapping(value = "addMatlabTaskIndex")
+	public String addMatlabTaskIndex(Model model) {
+		return "modules/sys/matlabTaskAddIndex";
 	}
 
 	/**
@@ -90,6 +102,15 @@ public class TaskController extends BaseController {
 	@PostMapping(value = "addTaskConfig")
 	public String addTaskConfig(Task task, Model model) {
 		taskService.save(task);
+		return task.getTaskNum();
+	}
+	/**
+	 * 添加任务文件接口
+	 */
+	@RequiresPermissions("sys:office:view")
+	@PostMapping(value = "addTaskFile")
+	public String addTaskFile(@RequestParam MultipartFile multipartFile, HttpServletRequest request) {
+		taskService.addTaskFile(multipartFile, request);
 		return "ok";
 	}
 
@@ -126,7 +147,29 @@ public class TaskController extends BaseController {
 	@RequestMapping(value = "listData")
 	@ResponseBody
 	public List<Task> listData() {
-		List<Task> taskList = taskService.findOne();
+		List<Task> taskList = taskService.findAll();
+		return taskList;
+	}
+
+	/**
+	 * 查询任务列表(所有python任务)
+	 */
+	@RequiresPermissions("sys:office:view")
+	@RequestMapping(value = "listDataPython")
+	@ResponseBody
+	public List<Task> listDataPython() {
+		List<Task> taskList = taskService.findAllPython();
+		return taskList;
+	}
+
+	/**
+	 * 查询任务列表(所有matlab任务)
+	 */
+	@RequiresPermissions("sys:office:view")
+	@RequestMapping(value = "listDataMatlab")
+	@ResponseBody
+	public List<Task> listDataMatlab() {
+		List<Task> taskList = taskService.findAllMatlab();
 		return taskList;
 	}
 

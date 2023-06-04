@@ -6,7 +6,9 @@ package com.jeesite.modules.sys.service.support;
 
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.io.file.FileWriter;
+import com.jeesite.common.io.FileUtils;
 import com.jeesite.common.utils.RunPythonUtil;
+import com.jeesite.common.utils.RunStatusEnum;
 import com.jeesite.common.utils.UUIDUtil;
 import com.jeesite.modules.sys.dao.TaskDao;
 import com.jeesite.modules.sys.entity.RunTask;
@@ -16,6 +18,10 @@ import com.jeesite.modules.sys.entity.TaskRunLog;
 import com.jeesite.modules.sys.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.util.Base64;
 
 import java.io.File;
@@ -23,6 +29,7 @@ import java.util.*;
 
 import static com.jeesite.common.utils.RunPythonUtil.runPythonCommand;
 import static com.jeesite.common.utils.RunPythonUtil.runPythonCommandByAbsolutePath;
+import static com.jeesite.common.utils.MatlabUtil.runMatlabByAbsolutePath;
 
 @Service
 public class TaskServiceSupport implements TaskService {
@@ -30,8 +37,18 @@ public class TaskServiceSupport implements TaskService {
     @Autowired
     private TaskDao taskDao;
 
-    public List<Task> findOne() {
+    public List<Task> findAll() {
         List<Task> all = taskDao.findAll();
+        return all;
+    }
+
+    public List<Task> findAllPython() {
+        List<Task> all = taskDao.findAllPython();
+        return all;
+    }
+
+    public List<Task> findAllMatlab() {
+        List<Task> all = taskDao.findAllMatlab();
         return all;
     }
 
@@ -45,6 +62,28 @@ public class TaskServiceSupport implements TaskService {
             taskDao.save(task);
         } else {
             taskDao.updateTask(task);
+        }
+    }
+
+    public void addTaskFile(MultipartFile multipartFile, HttpServletRequest request) {
+        try {
+            // 文件新名字
+            String filename = UUID.randomUUID().toString();
+//            String uri = request.getSession().getServletContext().getRealPath("/");
+//            System.out.println(uri);
+            //在项目新建一个 你重新生成名称的文件
+            File file = new File("./" + filename);
+            //将接收的到的 multipartFile 类型的文件 转为 file
+            multipartFile.transferTo(file);
+            //获取接收到的并存在项目本地的文件，这样你就可以拿着这个文件随意处理啦
+            String filePath = file.getAbsolutePath();
+
+            System.out.println(filePath);
+
+            System.out.println();
+
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
         }
     }
 
@@ -80,7 +119,7 @@ public class TaskServiceSupport implements TaskService {
         // 2. 开始执行
         runTaskLogic(taskRunItemList);
 
-        System.out.println("run.");
+        System.out.println("run end.");
 
     }
 
@@ -108,16 +147,40 @@ public class TaskServiceSupport implements TaskService {
                                 if(taskList.size() == 0) {
                                     throw new RuntimeException("您执行了已被删除的任务，请您刷新界面重新执行。");
                                 }
+
                                 Task task = taskList.get(0);
-                                String pyFileName = task.getTaskNum()+"s"+System.nanoTime()+".py";
-                                FileWriter writer = new FileWriter("./script_code/"+pyFileName);
-                                Base64.Decoder decoder = Base64.getDecoder();
-                                String code = new String(decoder.decode(task.getCode()));
-                                // 替换占位符
-                                code = code.replaceAll("_inputPath_", taskRunItem.getInputPath());
-                                code = code.replaceAll("_outputPath_", taskRunItem.getOutputPath());
-                                writer.write(code);
-                                String absolutePath = writer.getFile().getAbsolutePath();
+                                Integer type = task.getType();
+
+                                // 执行的程序路径 (python: 直接生成, matlab: 固定位置)
+
+                                // python
+                                String absolutePath = null;
+                                String fileName = task.getTaskNum()+"s"+System.nanoTime()+".py";
+
+                                // matlab
+                                String matlabPath = null;
+
+                                // python
+                                if(type == 0) {
+                                    FileWriter writer = new FileWriter("./script_code/"+fileName);
+                                    Base64.Decoder decoder = Base64.getDecoder();
+                                    String code = new String(decoder.decode(task.getCode()));
+                                    // 替换占位符
+                                    code = code.replaceAll("_inputPath_", taskRunItem.getInputPath());
+                                    code = code.replaceAll("_outputPath_", taskRunItem.getOutputPath());
+                                    writer.write(code);
+                                    absolutePath = writer.getFile().getAbsolutePath();
+                                }
+                                // matlab
+                                else if(type == 1) {
+                                    matlabPath = task.getPath();
+//                                    taskRunItem.getInputPath();
+//                                    taskRunItem.getOutputPath()
+                                }
+                                // other
+                                else {
+                                    throw new RuntimeException("您执行的任务类型异常，请联系系统管理员。");
+                                }
                                 System.out.println("absolutePath = " + absolutePath);
 
                                 // 2. 提交任务 & 更新状态(runing)
@@ -126,10 +189,23 @@ public class TaskServiceSupport implements TaskService {
                                 taskRunItem.setStartTime(new Date());
                                 System.out.println(taskRunItem.getStartTime());
                                 taskDao.updateTaskItem(taskRunItem);
-                                RunPythonUtil.RunStatusEnum runStatusEnum = runPythonCommandByAbsolutePath(absolutePath, pyFileName);
+
+                                // python
+                                RunStatusEnum runStatusEnum;
+                                if(type == 0) {
+                                    runStatusEnum = runPythonCommandByAbsolutePath(absolutePath, fileName);
+                                }
+                                // matlab
+                                else if (type == 1) {
+                                    runStatusEnum = runMatlabByAbsolutePath(matlabPath, taskRunItem.getInputPath(), taskRunItem.getOutputPath());
+                                }
+                                // other
+                                else {
+                                    throw new RuntimeException("您执行的任务类型异常，请联系系统管理员。");
+                                }
 
                                 // 3. 更新状态 (结束 or 异常)
-                                if(runStatusEnum.getValue() == RunPythonUtil.RunStatusEnum.OK.getValue()) {
+                                if(runStatusEnum.getValue() == RunStatusEnum.OK.getValue()) {
                                     taskRunItem.setTaskStatus(TaskRunItem.StatusEnum.OVER.getValue());
                                 } else {
                                     taskRunItem.setTaskStatus(TaskRunItem.StatusEnum.ERROR.getValue());
@@ -139,9 +215,11 @@ public class TaskServiceSupport implements TaskService {
                                 taskDao.updateTaskItem(taskRunItem);
 
                                 // 4. 删除临时代码文件
-                                File file = FileUtil.file(absolutePath);
-                                boolean delete = file.delete();
-                                System.out.println(delete);
+                                if(type == 0) {
+                                    File file = FileUtil.file(absolutePath);
+                                    boolean delete = file.delete();
+                                    System.out.println(delete);
+                                }
 
                             }
                         } catch (Exception e) {

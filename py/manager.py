@@ -17,7 +17,7 @@ class CThread (threading.Thread):
         file = open(self.statePath, mode = 'w')
         file.write("2")
         file.close()
-        str = 'python3 ' + self.pythonPath + self.pythonName + ' > /Users/jiapeng/Desktop/garden_file/output_log/' + self.logName + '.log'
+        str = 'python3 ' + self.pythonPath + self.pythonName + ' > /Users/jiapeng/Desktop/植物研究所/garden_file/output_log/' + self.logName + '.log'
         print('str = ' + str)
         code = os.system(str)
         print(code)

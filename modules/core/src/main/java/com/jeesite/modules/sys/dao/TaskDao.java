@@ -17,6 +17,10 @@ public interface TaskDao {
 
     public List<Task> findAll();
 
+    public List<Task> findAllPython();
+
+    public List<Task> findAllMatlab();
+
     public void save(@Param("task") Task task);
 
     public void updateTask(@Param("task") Task task);

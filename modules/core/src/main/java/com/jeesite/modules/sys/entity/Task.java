@@ -20,6 +20,10 @@ public class Task {
 
 	private Date updateTime;
 
+	private Integer type;
+
+	private String path;
+
 	private Integer del;
 
 	public String getTaskNum() {
@@ -68,6 +72,22 @@ public class Task {
 
 	public void setUpdateTime(Date updateTime) {
 		this.updateTime = updateTime;
+	}
+
+	public Integer getType() {
+		return type;
+	}
+
+	public void setType(Integer type) {
+		this.type = type;
+	}
+
+	public String getPath() {
+		return path;
+	}
+
+	public void setPath(String path) {
+		this.path = path;
 	}
 
 	public Integer getDel() {
