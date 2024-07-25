@@ -11,6 +11,7 @@ import com.jeesite.common.config.Global;
 import com.jeesite.common.idgen.IdGen;
 import com.jeesite.common.lang.DateUtils;
 import com.jeesite.common.lang.StringUtils;
+import com.jeesite.common.utils.UUIDUtil;
 import com.jeesite.common.utils.excel.ExcelExport;
 import com.jeesite.common.utils.excel.annotation.ExcelField.Type;
 import com.jeesite.common.web.BaseController;
@@ -33,6 +34,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import static com.jeesite.common.idgen.IdGen.uuid;
 
 /**
  * 任务调度Controller
@@ -101,6 +104,7 @@ public class TaskController extends BaseController {
 	@RequiresPermissions("sys:office:view")
 	@PostMapping(value = "addTaskConfig")
 	public String addTaskConfig(Task task, Model model) {
+		task.setTaskNum(UUIDUtil.getUUID());
 		taskService.save(task);
 		return task.getTaskNum();
 	}
