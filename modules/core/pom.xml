@@ -13,7 +13,7 @@
 	<artifactId>jeesite-module-core</artifactId>
 	<packaging>jar</packaging>
 	
-	<name>JeeSite Module Core</name>
+	<name>IBCAS DataAnalysis Module Core</name>
 	<url>http://www.ibcas.ac.cn/</url>
 	<inceptionYear>2023-Now</inceptionYear>
 	
@@ -102,7 +102,7 @@
 	</developers>
 	
 	<organization>
-		<name>JeeSite</name>
+		<name>IBCAS DataAnalysis</name>
 		<url>http://www.ibcas.ac.cn/</url>
 	</organization>
 	

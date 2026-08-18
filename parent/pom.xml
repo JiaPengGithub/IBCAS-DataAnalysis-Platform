@@ -15,7 +15,7 @@
 	<version>4.6.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	
-	<name>JeeSite Parent</name>
+	<name>IBCAS DataAnalysis Admin System Parent</name>
 	<url>http://www.ibcas.ac.cn/</url>
 	<inceptionYear>2023-Now</inceptionYear>
 	
@@ -371,7 +371,7 @@
 	</developers>
 	
 	<organization>
-		<name>JeeSite</name>
+		<name>IBCAS DataAnalysis</name>
 		<url>http://www.ibcas.ac.cn/</url>
 	</organization>
 	

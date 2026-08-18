@@ -13,7 +13,7 @@
 	<artifactId>jeesite-web</artifactId>
 	<packaging>war</packaging>
 	
-	<name>JeeSite Web</name>
+	<name>IBCAS DataAnalysis Web</name>
 	<url>http://www.ibcas.ac.cn/</url>
 	<inceptionYear>2023-Now</inceptionYear>
 	
@@ -127,7 +127,7 @@
 	</developers>
 	
 	<organization>
-		<name>JeeSite</name>
+		<name>IBCAS DataAnalysis</name>
 		<url>http://www.ibcas.ac.cn/</url>
 	</organization>
 	

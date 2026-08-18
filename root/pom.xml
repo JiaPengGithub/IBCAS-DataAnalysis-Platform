@@ -8,7 +8,7 @@
 	<version>4.6.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	
-	<name>JeeSite Root</name>
+	<name>IBCAS DataAnalysis Admin System Root</name>
 	<url>http://www.ibcas.ac.cn/</url>
 	<inceptionYear>2023-Now</inceptionYear>
 	
@@ -31,7 +31,7 @@
 	</developers>
 	
 	<organization>
-		<name>JeeSite</name>
+		<name>IBCAS DataAnalysis</name>
 		<url>http://www.ibcas.ac.cn/</url>
 	</organization>
 	

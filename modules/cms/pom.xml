@@ -12,7 +12,7 @@
 
 	<artifactId>jeesite-module-cms</artifactId>
 
-	<name>JeeSite Module CMS</name>
+	<name>IBCAS DataAnalysis Module CMS</name>
 	<url>http://www.ibcas.ac.cn/</url>
 	<inceptionYear>2023-Now</inceptionYear>
 
@@ -39,7 +39,7 @@
 	</developers>
 
 	<organization>
-		<name>JeeSite</name>
+		<name>IBCAS DataAnalysis</name>
 		<url>http://www.ibcas.ac.cn/</url>
 	</organization>
 	<repositories>
