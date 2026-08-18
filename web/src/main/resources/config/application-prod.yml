@@ -11,9 +11,9 @@ server:
 jdbc: 
     type: mysql
     driver: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://39.106.62.98:3306/jeesite?useSSL=false&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=CONVERT_TO_NULL&serverTimezone=Asia/Shanghai&nullCatalogMeansCurrent=true
-    username: root
-    password: nomad@0315A1.
+    url: ${JDBC_URL:jdbc:mysql://127.0.0.1:3306/jeesite?useSSL=false&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=CONVERT_TO_NULL&serverTimezone=Asia/Shanghai&nullCatalogMeansCurrent=true}
+    username: ${JDBC_USERNAME:jeesite}
+    password: ${JDBC_PASSWORD:}
     testSql: SELECT 1
 
   # Mysql 数据库配置

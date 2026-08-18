@@ -77,6 +77,14 @@ jdbc:
 Do not reuse development credentials in production. Prefer environment-specific
 configuration files or deployment-time overrides for real deployments.
 
+For production-like deployments, prefer environment variables:
+
+```bash
+export JDBC_URL="jdbc:mysql://127.0.0.1:3306/jeesite?useSSL=false&useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai"
+export JDBC_USERNAME="jeesite"
+export JDBC_PASSWORD="change-me"
+```
+
 ## Database Initialization
 
 Database scripts are provided under:
@@ -150,6 +158,21 @@ The web module is packaged with the final name `web`.
   `modules/cms/src/main/resources/db/`.
 - Tests are skipped by default in the parent Maven configuration. Enable them
   explicitly when needed.
+- Do not commit real database credentials, private endpoints, generated
+  packages, local upload files, logs, or IDE workspace files.
+
+## Security
+
+If you discover a security issue, please avoid opening a public issue with
+exploit details. See `SECURITY.md` for the preferred reporting process.
+
+Before publishing your own fork, rotate any credentials that may have existed
+in previous private repository history.
+
+## Contributing
+
+Contributions are welcome. Please read `CONTRIBUTING.md` before opening a pull
+request.
 
 ## Git Line Ending Tips
 

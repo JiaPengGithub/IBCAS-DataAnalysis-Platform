@@ -49,17 +49,17 @@ server:
 jdbc:
   type: mysql
   driver: com.mysql.cj.jdbc.Driver
-  url: jdbc:mysql://39.106.62.98:3306/jeesite?useSSL=false&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=CONVERT_TO_NULL&serverTimezone=Asia/Shanghai&nullCatalogMeansCurrent=true
-  username: root
-  password: nomad@0315A1.
+  url: ${JDBC_URL:jdbc:mysql://127.0.0.1:3306/jeesite?useSSL=false&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=CONVERT_TO_NULL&serverTimezone=Asia/Shanghai&nullCatalogMeansCurrent=true}
+  username: ${JDBC_USERNAME:jeesite}
+  password: ${JDBC_PASSWORD:jeesite}
   testSql: SELECT 1
   
   # Mysql 数据库配置
 #  type: mysql
 #  driver: com.mysql.cj.jdbc.Driver
-#  url: jdbc:mysql://47.94.227.206:3306/jeesite_4_6_0?useSSL=false&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=CONVERT_TO_NULL&serverTimezone=Asia/Shanghai&nullCatalogMeansCurrent=true
-#  username: root
-#  password: Nydd%abc123
+#  url: jdbc:mysql://127.0.0.1:3306/jeesite?useSSL=false&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=CONVERT_TO_NULL&serverTimezone=Asia/Shanghai&nullCatalogMeansCurrent=true
+#  username: jeesite
+#  password: jeesite
 #  testSql: SELECT 1
 
 
@@ -166,8 +166,8 @@ jdbc:
 #    type: mysql
 #    driver: com.mysql.cj.jdbc.Driver
 #    url: jdbc:mysql://127.0.0.1:3306/jeesite_test?useSSL=false&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=CONVERT_TO_NULL&serverTimezone=Asia/Shanghai
-#    username: root
-#    password: 123456
+#    username: jeesite
+#    password: jeesite
 #    testSql: SELECT 1
 #    pool:
 #      init: 1
@@ -179,8 +179,8 @@ jdbc:
 #    type: mysql
 #    driver: com.mysql.cj.jdbc.Driver
 #    url: jdbc:mysql://127.0.0.1:3306/jeesite_test2?useSSL=false&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=CONVERT_TO_NULL&serverTimezone=Asia/Shanghai
-#    username: root
-#    password: 123456
+#    username: jeesite
+#    password: jeesite
 #    testSql: SELECT 1
 #    pool:
 #      init: 1
@@ -195,8 +195,8 @@ jdbc:
 #    type: mysql
 #    driver: com.mysql.cj.jdbc.Driver
 #    url: jdbc:mysql://127.0.0.1:3306/jeesite2?useSSL=false&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=CONVERT_TO_NULL&serverTimezone=Asia/Shanghai
-#    username: root
-#    password: 123456
+#    username: jeesite
+#    password: jeesite
 #    testSql: SELECT 1
 #    # 其它数据源支持密码加密
 #    encrypt:
@@ -273,7 +273,7 @@ spring:
 #    port: 6379
 #    ssl: false
 #    database: 0
-#    password: 1234
+#    password: jeesite
 #    timeout: 20000
 #    lettuce:
 #      pool:

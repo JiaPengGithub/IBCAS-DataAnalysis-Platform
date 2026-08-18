@@ -7,6 +7,12 @@
 *.epoch
 *.lic
 
+.env
+.env.*
+!.env.example
+application-local.yml
+application-*.local.yml
+
 .settings
 .apt_generated
 .factorypath
